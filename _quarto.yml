@@ -1,0 +1,7 @@
+project:
+  title: "quarto-resume"
+execute:
+  echo: FALSE
+  output: asis
+format: awesomecv-typst
+keep_typ: true
