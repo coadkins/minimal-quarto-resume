@@ -1,0 +1,44 @@
+---
+author:
+  name: Cory Adkins
+  location: Boston, MA
+  contacts:
+    - icon: x
+      text: adkins.cory@gmail.com 
+      url: mailto:adkins.cory@gmail.com
+    - icon: x
+      text: GitHub
+      url: https://github.com/coadkins
+    - icon: x
+      text: LinkedIn
+      url: https://linkedin.com/in/corykadkins
+format: awesomecv-typst
+keep-typ: true
+---
+```{r}
+# label: load packages and data
+# echo: FALSE
+pacman::p_load("dplyr", "here", "pins", "typstcv")
+resume_type <- "default"
+board <- board_s3(bucket = Sys.getenv("S3_BUCKET"),
+                  versioned = TRUE,
+                  cache = here("cache"),
+                  region = Sys.getenv("S3_REGION"),
+                  endpoint = Sys.getenv("S3_ENDPOINT"),
+                  access_key = Sys.getenv("S3_PUB_KEY"),
+                  secret_access_key = Sys.getenv("S3_PRIV_KEY"))
+
+resume_df <- pin_read(board, name = "resume_data")
+```
+
+```{=typst}
+= Education
+#edu(
+  institution: "University of California, Berkeley",
+  date: "Aug 1953",
+  location: "Berkeley, CA",
+  degrees: (
+    ("Ph.D.", "Theoretical Physics"),
+  ),
+)
+```
