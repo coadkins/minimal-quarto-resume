@@ -6,6 +6,6 @@
 
 /.quarto/
 /cache/
-/data/
+/data/resume_data.csv
 /renv/
 !/renv/activate.R
