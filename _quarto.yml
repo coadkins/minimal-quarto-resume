@@ -1,7 +1,13 @@
 project:
   title: "quarto-resume"
+  render:
+    - typstcv.qmd
 execute:
   echo: FALSE
   output: asis
 format: awesomecv-typst
 keep_typ: true
+style:
+  font-header: "Roboto"
+  font-text: "Source Sans Pro"
+  color-accent: "131A28"
