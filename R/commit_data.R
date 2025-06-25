@@ -12,9 +12,7 @@ board <- board_s3(
 df <- read_csv(here("data", "resume_data.csv"),
               col_types = cols(exp_type = "c", 
               title = "c", location = "c", date = "D", 
-              start = "D", end = "D", description = "c", 
-              detail1 = "c", detail2 = "c", detail3 = "c",
-              detail4 = "c"))
+              start = "D", end = "D", bullets = "c"))
 pin_write(
   board,
   df,

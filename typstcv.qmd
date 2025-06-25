@@ -18,7 +18,7 @@ keep-typ: true
 ```{r}
 # label: load packages and data
 # echo: FALSE
-pacman::p_load("dplyr", "here", "pins", "typstcv")
+pacman::p_load("dplyr", "here", "pins", "purrr", "stringr", "typstcv")
 resume_type <- "default"
 board <- board_s3(bucket = Sys.getenv("S3_BUCKET"),
                   versioned = TRUE,
@@ -39,6 +39,27 @@ resume_df <- pin_read(board, name = "resume_data")
   location: "Berkeley, CA",
   degrees: (
     ("Ph.D.", "Theoretical Physics"),
-  ),
 )
+```{r}
+# label: organize bullet points
+resume_df <- resume_df |> 
+  mutate(
+    bullets_parsed = map(bullets, \(x) {
+      items <- strsplit(x, "\n")[[1]]
+      items <- gsub("^\\s*-\\s*", "", items)
+      items <- trimws(items)
+      items <- items[items != ""]
+      return(items)
+    })
+  )
 ```
+## Education
+```{r}
+# label: print education
+resume_df |>
+  dplyr::filter(exp_type == "education") |>
+  resume_entry(details = "bullets_parsed")
+```
+## Experience
+
+## Skills
