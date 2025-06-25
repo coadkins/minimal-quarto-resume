@@ -1,15 +1,16 @@
 ---
 author:
-  name: Cory Adkins
-  location: Boston, MA
+  firstname: Cory
+  lastname: Adkins
+  address: Boston, MA
   contacts:
-    - icon: x
+    - icon: fa envelope
       text: adkins.cory@gmail.com 
       url: mailto:adkins.cory@gmail.com
-    - icon: x
+    - icon: fa brands github 
       text: GitHub
       url: https://github.com/coadkins
-    - icon: x
+    - icon: fa brands linkedin
       text: LinkedIn
       url: https://linkedin.com/in/corykadkins
 format: awesomecv-typst
@@ -31,15 +32,6 @@ board <- board_s3(bucket = Sys.getenv("S3_BUCKET"),
 resume_df <- pin_read(board, name = "resume_data")
 ```
 
-```{=typst}
-= Education
-#edu(
-  institution: "University of California, Berkeley",
-  date: "Aug 1953",
-  location: "Berkeley, CA",
-  degrees: (
-    ("Ph.D.", "Theoretical Physics"),
-)
 ```{r}
 # label: organize bullet points
 resume_df <- resume_df |> 
