@@ -20,7 +20,7 @@ keep-typ: true
 # label: load packages and data
 # echo: FALSE
 pacman::p_load("dplyr", "here", "pins", "purrr", "stringr", "typstcv")
-resume_type <- "default"
+source(here("R","functions.R"))
 board <- board_s3(bucket = Sys.getenv("S3_BUCKET"),
                   versioned = TRUE,
                   cache = here("cache"),
@@ -55,3 +55,9 @@ resume_df |>
 ## Experience
 
 ## Skills
+```{r}
+# label: print skills 
+resume_df |>
+  dplyr::filter(exp_type == "skills") |>
+  resume_entry_skills()
+```
