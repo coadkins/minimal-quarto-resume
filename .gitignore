@@ -2,3 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+.Renviron
+
+/.quarto/
+/cache/
+/data/
+/renv/
+!/renv/activate.R
