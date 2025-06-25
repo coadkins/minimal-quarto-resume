@@ -50,6 +50,7 @@ resume_df <- resume_df |>
 # label: print education
 resume_df |>
   dplyr::filter(exp_type == "education") |>
+  mutate(date = as.character(date)) |>
   resume_entry(details = "bullets_parsed")
 ```
 ## Experience
