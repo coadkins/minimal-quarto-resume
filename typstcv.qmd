@@ -17,8 +17,8 @@ format: awesomecv-typst
 keep-typ: true
 ---
 ```{r}
-# label: load packages and data
-# echo: FALSE
+#| label: load packages and data
+#| echo: FALSE
 pacman::p_load("dplyr", "here", "pins", "purrr", "stringr", "typstcv")
 source(here("R","functions.R"))
 board <- board_s3(bucket = Sys.getenv("S3_BUCKET"),
@@ -33,7 +33,7 @@ resume_df <- pin_read(board, name = "resume_data")
 ```
 
 ```{r}
-# label: organize bullet points
+#| label: organize bullet points
 resume_df <- resume_df |> 
   mutate(
     bullets_parsed = map(bullets, \(x) {
@@ -46,14 +46,18 @@ resume_df <- resume_df |>
     })
   )
 ```
+
 ## Education
+
 ```{r}
-# label: print education
+#| label: print education
 resume_df |>
   dplyr::filter(exp_type == "education") |>
+  dplyr::arrange(desc(date)) |> 
   mutate(date = as.character(date)) |>
   resume_entry_edu(details = "bullets_parsed")
 ```
+
 ## Experience
 
 ```{r}
@@ -68,7 +72,7 @@ resume_df |>
 
 ## Skills
 ```{r}
-# label: print skills 
+#| label: print skills 
 resume_df |>
   dplyr::filter(exp_type == "skills") |>
   resume_entry_skills()
