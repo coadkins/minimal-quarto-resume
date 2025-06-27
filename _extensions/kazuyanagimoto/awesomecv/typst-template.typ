@@ -65,14 +65,12 @@ $endif$
 
 // layout utility
 #let __justify_align(left_body, right_body) = {
-  block[
-    #box(width: 4fr)[#left_body]
-    #box(width: 1fr)[
+    box(width: 4fr)[#left_body]
+    box(width: 1fr)[
       #align(right)[
         #right_body
       ]
     ]
-  ]
 }
 
 #let __justify_align_3(left_body, mid_body, right_body) = {
@@ -100,9 +98,9 @@ $endif$
 #let secondary-right-header(body) = {
   set text(
     size: 10pt,
-    weight: "thin",
-    style: "italic",
-    fill: color-accent,
+    weight: "regular",
+    style: "normal",
+    fill: color-gray,
   )
   body
 }
@@ -111,50 +109,43 @@ $endif$
 /// - body (content): The body of the right header
 #let tertiary-right-header(body) = {
   set text(
-    weight: "light",
-    size: 9pt,
+    weight: "regular",
+    size: 10pt,
     style: "italic",
-    fill: color-gray,
+    fill: color-lightgray,
   )
-  body
+ body 
 }
 
-/// Justified header that takes a primary section and a secondary section. The primary section is on the left and the secondary section is on the right.
+/// Justified header that takes a primary section and a secondary secti>on. The primary section is on the left and the secondary section is on the right.
 /// - primary (content): The primary section of the header
 /// - secondary (content): The secondary section of the header
 #let justified-header(primary, secondary) = {
-  set block(
-    above: 0.7em,
-    below: 0.7em,
-  )
-  pad[
-    #__justify_align[
-      #set text(
-        size: 12pt,
+    set text(
+        size: 11pt,
         weight: "bold",
-        fill: color-darkgray,
-      )
-      #primary
-    ][
-      #secondary-right-header[#secondary]
-    ]
-  ]
+        fill: color-middledarkgray)
+    __justify_align(
+        primary,
+        secondary-right-header(secondary))
 }
 
 /// Justified header that takes a primary section and a secondary section. The primary section is on the left and the secondary section is on the right. This is a smaller header compared to the `justified-header`.
 /// - primary (content): The primary section of the header
 /// - secondary (content): The secondary section of the header
 #let secondary-justified-header(primary, secondary) = {
-  __justify_align[
+  block[
      #set text(
       size: 10pt,
       weight: "regular",
       fill: color-gray,
     )
+  #__justify_align[
     #primary
   ][
     #tertiary-right-header[#secondary]
   ]
+ ]
 }
 
 //------------------------------------------------------------------------------
@@ -165,50 +156,22 @@ $endif$
   firstname: "",
   lastname: "",
 ) = {
-  
-  pad(bottom: 5pt)[
-    #block[
+    block[
       #set text(
-        size: 32pt,
+        size: 20pt,
         style: "normal",
         font: (font-header),
       )
-      #text(fill: color-gray, weight: "thin")[#firstname]
-      #text(weight: "bold")[#lastname]
-    ]
-  ]
-}
-
-#let create-header-position(
-  position: "",
-) = {
-  set block(
-      above: 0.75em,
-      below: 0.75em,
-    )
-  
-  set text(
-    color-accent,
-    size: 9pt,
-    weight: "regular",
-  )
-    
-  smallcaps[
-    #position
+      #text(fill: color-darkgray)[#firstname #lastname]
   ]
 }
 
 #let create-header-address(
   address: ""
 ) = {
-  set block(
-      above: 0.75em,
-      below: 0.75em,
-  )
   set text(
-    color-lightgray,
-    size: 9pt,
-    style: "italic",
+    color-accent,
+    size: 10pt
   )
 
   block[#address]
@@ -221,14 +184,13 @@ $endif$
   if(contacts.len() > 1) {
     block[
       #set text(
-        size: 9pt,
+        size: 10pt,
         weight: "regular",
         style: "normal",
       )
       #align(horizon)[
         #for contact in contacts [
-          #set box(height: 9pt)
-          #box[#parse_icon_string(contact.icon) #link(contact.url)[#contact.text]]
+          #box(height: 10pt)[#parse_icon_string(contact.icon) #link(contact.url)[#contact.text]]
           #separator
         ]
       ]
@@ -239,16 +201,17 @@ $endif$
 #let create-header-info(
   firstname: "",
   lastname: "",
-  position: "",
   address: "",
   contacts: (),
   align-header: center
 ) = {
+  set par(
+   spacing: .43em 
+  )
   align(align-header)[
     #create-header-name(firstname: firstname, lastname: lastname)
-    #create-header-position(position: position)
-    #create-header-address(address: address)
     #create-header-contacts(contacts: contacts)
+    #create-header-address(address: address)
   ]
 }
 
@@ -272,7 +235,6 @@ $endif$
 #let create-header(
   firstname: "",
   lastname: "",
-  position: "",
   address: "",
   contacts: (),
   profile-photo: "",
@@ -283,7 +245,6 @@ $endif$
         #create-header-info(
           firstname: firstname,
           lastname: lastname,
-          position: position,
           address: address,
           contacts: contacts,
           align-header: left
@@ -298,7 +259,6 @@ $endif$
     create-header-info(
       firstname: firstname,
       lastname: lastname,
-      position: position,
       address: address,
       contacts: contacts,
       align-header: center
@@ -329,10 +289,13 @@ $endif$
   date: "",
   description: ""
 ) = {
-  pad[
+    block[
+    #set par(
+      spacing: 0.43em
+    )
     #justified-header(title, location)
     #secondary-justified-header(description, date)
-  ]
+    ]
 }
 
 //------------------------------------------------------------------------------
@@ -398,8 +361,8 @@ $endif$
   
   set page(
     paper: "a4",
-    margin: (left: 15mm, right: 15mm, top: 10mm, bottom: 10mm),
-    footer: context [
+    margin: (left: 15mm, right: 12mm, top: 12.50mm, bottom: 0mm),
+    footer:  [
       #set text(
         fill: gray,
         size: 8pt,
@@ -411,15 +374,18 @@ $endif$
           #author.firstname
           #author.lastname
           #sym.dot.c
-          CV
         ]
       ][
-        #counter(page).display()
+        #context(counter(page).display())
       ]
     ],
   )
   
   // set paragraph spacing
+  set par(
+    spacing: 0.65em,
+    justify: true,
+  )
 
   set heading(
     numbering: none,
@@ -427,17 +393,13 @@ $endif$
   )
   
   show heading.where(level: 1): it => [
-    #set block(
-      above: 1.5em,
-      below: 1em,
-    )
     #set text(
-      size: 16pt,
+      size: 14pt,
       weight: "regular",
     )
     
     #align(left)[
-      #text[#strong[#text(color-accent)[#it.body.text.slice(0, 3)]#text(color-darkgray)[#it.body.text.slice(3)]]]
+      #text[#strong[#text(color-accent)[#it.body]]]
       #box(width: 1fr, line(length: 100%))
     ]
   ]
@@ -446,7 +408,7 @@ $endif$
     set text(
       color-middledarkgray,
       size: 12pt,
-      weight: "thin"
+      weight: "regular"
     )
     it.body
   }
@@ -463,10 +425,8 @@ $endif$
   // Contents
   create-header(firstname: author.firstname,
                 lastname: author.lastname,
-                position: author.position,
                 address: author.address,
                 contacts: author.contacts,
                 profile-photo: profile-photo,)
   body
 }
-
