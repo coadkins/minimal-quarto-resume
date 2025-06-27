@@ -17,7 +17,6 @@ Imports:
     pins (>= 1.4.1),
     purrr (>= 1.0.4),
     readr (>= 2.1.5),
-    stringr (>= 1.5.1),
-    typstcv (>= 0.0.2.2)
+    stringr (>= 1.5.1)
 Suggests: 
     usethis (>= 3.1.0)

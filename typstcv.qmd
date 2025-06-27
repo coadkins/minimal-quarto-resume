@@ -19,7 +19,7 @@ keep-typ: true
 ```{r}
 #| label: load packages and data
 #| echo: FALSE
-pacman::p_load("dplyr", "here", "pins", "purrr", "stringr", "typstcv")
+pacman::p_load("dplyr", "here", "pins", "purrr", "stringr")
 source(here("R","functions.R"))
 board <- board_s3(bucket = Sys.getenv("S3_BUCKET"),
                   versioned = TRUE,
