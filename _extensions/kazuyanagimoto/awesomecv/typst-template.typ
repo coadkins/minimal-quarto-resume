@@ -271,16 +271,17 @@ $endif$
 // Resume Entries
 //------------------------------------------------------------------------------
 
-#let resume-item(body) = {
-  set text(
-    size: 10pt,
-    style: "normal",
-    weight: "light",
-    fill: color-darknight,
+#let resume-item(details) = {
+  block(below: 1em)[ 
+    #set text(
+      size: 10pt,
+      style: "normal",
+      weight: "regular",
+      fill: color-darknight,
   )
-  set par(leading: 0.65em)
-  set list(indent: 1em)
-  body
+    #list(indent: .60em, 
+         tight: true,
+         ..details)]
 }
 
 #let resume-entry(
@@ -302,13 +303,13 @@ $endif$
 // Skills Entries 
 //------------------------------------------------------------------------------
 #let skills-entry(areas) = {
-  for area in areas {
+  let skills=for area in areas {
     strong[#area.at(0): ]
-    area.at(1).join(" | ")
+    area.at(1).join(", ")
     linebreak()
   }
+    block[#skills]
 }
-
 //------------------------------------------------------------------------------
 // Data to Resume Entries
 //------------------------------------------------------------------------------
