@@ -8,7 +8,7 @@ set_up_board <- function(
   access_key = Sys.getenv("S3_PUB_KEY"),
   secret_access_key = Sys.getenv("S3_PRIV_KEY")
 ) {
-  board <- board_s3(
+  board <- pins::board_s3(
     bucket = bucket,
     versioned = versioned,
     cache = cache,
@@ -22,7 +22,7 @@ set_up_board <- function(
 # Functions for loading and uploading raw resume data
 ## `read_resume_data()` reads resume data with defaults that match the .csv template
 read_resume_data <- function(
-  file = here("data", "resume_data.csv"),
+  file,
   col_types = cols(
     exp_type = "c",
     title = "c",
@@ -53,8 +53,9 @@ resume_pin_write <- function(
     type = type,
     title = title,
     description = description,
-    tags = tags 
+    tags = tags
   )
+  return(name)
 }
 # Functions for creating resume entries
 ## `parse_bullets()` transforms lists of resume item details into a usable format
@@ -65,7 +66,7 @@ parse_bullets <- function(
 ) {
   df |>
     dplyr::mutate(
-      !!output_col := map(.data[[bullet_col]], \(x) {
+      !!output_col := purrr::map(.data[[bullet_col]], \(x) {
         items <- strsplit(x, "\n")
         items <- sapply(
           items,
@@ -77,6 +78,20 @@ parse_bullets <- function(
         return(items)
       })
     )
+}
+
+## `filter_resume_entries`
+filter_resume_entries <- function(data, 
+  exp_col = exp_type, exp_style, 
+  date_col = date) {
+filtered_df <- data |>
+  dplyr::filter({{ exp_col }} == exp_style)
+if (exp_style == "education" || exp_style == "work") {
+  filtered_df <- filtered_df |>
+    dplyr::arrange(desc({{ date_col }})) |>
+    dplyr::mutate(date = as.character({{ date_col }}))
+  } 
+return(filtered_df)
 }
 
 ## 'resume_entry_default()` generates typst code for education and experience entries from a data frame
