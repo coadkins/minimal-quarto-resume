@@ -54,7 +54,16 @@ resume_entry_edu <- function(data,
   cat(paste0("```{=typst}\n", paste(strings, collapse = "\n"), "\n```"))
 }
 
-parse_bullets <- function(x){
-  # TODO - convert bullets parser to a reusable function
-  x
-}
+  parse_bullets <- function(df, bullet_col = "bullets", output_col = "bullets_parsed") {
+  df |>
+    dplyr::mutate(
+      !!output_col := map(.data[[bullet_col]], \(x) {
+        items <- strsplit(x, "\n")
+        items <- sapply(items, \(x) gsub("^\\s*-\\s*", "", x), 
+                       USE.NAMES = FALSE)
+        items <- sapply(items, trimws, USE.NAMES = FALSE)
+        items <- items[items != ""]
+        return(items)
+      })
+    )
+  }

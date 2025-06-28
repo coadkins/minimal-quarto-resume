@@ -34,17 +34,7 @@ resume_df <- pin_read(board, name = "resume_data")
 
 ```{r}
 #| label: organize bullet points
-resume_df <- resume_df |> 
-  mutate(
-    bullets_parsed = map(bullets, \(x) {
-      items <- strsplit(x, "\n")
-      items <- sapply(items, \(x) gsub("^\\s*-\\s*", "", x), 
-      USE.NAMES = FALSE)
-      items <- sapply(items, trimws, USE.NAMES = FALSE)
-      items <- items[items != ""]
-      return(items)
-    })
-  )
+resume_df <- parse_bullets(resume_df)
 ```
 
 ## Education
