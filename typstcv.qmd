@@ -16,54 +16,25 @@ author:
 format: awesomecv-typst
 keep-typ: true
 ---
-```{r}
-#| label: load packages and data
-#| echo: FALSE
-pacman::p_load("dplyr", "here", "pins", "purrr", "stringr")
-source(here("R","functions.R"))
-board <- board_s3(bucket = Sys.getenv("S3_BUCKET"),
-                  versioned = TRUE,
-                  cache = here("cache"),
-                  region = Sys.getenv("S3_REGION"),
-                  endpoint = Sys.getenv("S3_ENDPOINT"),
-                  access_key = Sys.getenv("S3_PUB_KEY"),
-                  secret_access_key = Sys.getenv("S3_PRIV_KEY"))
-
-resume_df <- pin_read(board, name = "resume_data")
-```
-
-```{r}
-#| label: organize bullet points
-resume_df <- parse_bullets(resume_df)
-```
 
 ## Education
 
 ```{r}
 #| label: print education
-resume_df |>
-  dplyr::filter(exp_type == "education") |>
-  dplyr::arrange(desc(date)) |> 
-  mutate(date = as.character(date)) |>
-  resume_entry_edu(details = "bullets_parsed")
+source(here::here("R", "functions.R"))
+resume_entry_default(data = targets::tar_read(education_entries), 
+details = "bullets_parsed")
 ```
 
 ## Experience
 
 ```{r}
 #| label: print work experience 
-resume_df |>
-  dplyr::filter(exp_type == "work") |>
-  dplyr::arrange(desc(end)) |> 
-  mutate(date = as.character(date)) |>
-  resume_entry_edu(details = "bullets_parsed")
+resume_entry_default(data = targets::tar_read(experience_entries), details = "bullets_parsed")
 ```
-
 
 ## Skills
 ```{r}
 #| label: print skills 
-resume_df |>
-  dplyr::filter(exp_type == "skills") |>
-  resume_entry_skills()
+resume_entry_skills(data = targets::tar_read(skills_entries))
 ```
