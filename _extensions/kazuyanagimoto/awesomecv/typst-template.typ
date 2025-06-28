@@ -355,7 +355,7 @@ $endif$
   
   set text(
     font: (font-text),
-    size: 11pt,
+    size: 10pt,
     fill: color-darkgray,
     fallback: true,
   )
