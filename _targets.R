@@ -41,12 +41,8 @@ list(
     command = resume_pin_write(board = board, data = raw_resume_data)
   ),
   tar_target(
-    name = versioned_resume_data,
-    command = pin_read(board = board, name = write_pin_side_effect)
-  ),
-  tar_target(
     name = parsed_resume_data,
-    command = parse_bullets(versioned_resume_data)
+    command = parse_bullets(raw_resume_data)
   ),
   tar_target(
     name = education_entries,
@@ -60,6 +56,6 @@ list(
     name = skills_entries,
     command = filter_resume_entries(parsed_resume_data, exp_style = "skills")
   ),
-  tar_quarto(resume_out, here("typstcv.qmd"))
-  # TBD: use tar_cue() to reevaluate this target if _quarto.yml or the extension changes
+  tar_quarto(resume_out, here("typstcv.qmd"),
+extra_files = here("_quarto.yml"))
 )
