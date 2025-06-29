@@ -1,22 +1,29 @@
 # Functions for setting up pins and S3
-set_up_board <- function(
+set_up_board <- function() {
+  s3_config_complete <- all(
+    nzchar(Sys.getenv("S3_BUCKET")),
+    nzchar(Sys.getenv("S3_REGION")),
+    nzchar(Sys.getenv("S3_ENDPOINT")),
+    nzchar(Sys.getenv("AWS_ACCESS_KEY_ID")),
+    nzchar(Sys.getenv("AWS_SECRET_ACCESS_KEY"))
+  )
+board <- if(s3_config_complete) {  
+  pins::board_s3(
   bucket = Sys.getenv("S3_BUCKET"),
   versioned = TRUE,
   cache = here("cache"),
   region = Sys.getenv("S3_REGION"),
   endpoint = Sys.getenv("S3_ENDPOINT"),
   access_key = Sys.getenv("S3_PUB_KEY"),
-  secret_access_key = Sys.getenv("S3_PRIV_KEY")
-) {
-  board <- pins::board_s3(
-    bucket = bucket,
-    versioned = versioned,
-    cache = cache,
-    region = region,
-    endpoint = endpoint,
-    access_key = access_key,
-    secret_access_key = secret_access_key
-  )
+  secret_access_key = Sys.getenv("S3_PRIV_KEY"))
+} else {
+  # fall back to local board if no env. varaibles for S3
+  pins::board_folder(here("_pins"))
+  warning("S3 configuration incomplete: One or more required environment variables are missing.\n",
+          "Required variables: S3_BUCKET, S3_REGION, S3_ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY\n",
+          "Targets will use local storage instead of AWS S3.",
+          call. = FALSE)
+} 
   return(board)
 }
 # Functions for loading and uploading raw resume data
