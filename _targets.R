@@ -19,8 +19,7 @@ tar_option_set(
     "pins",
     "readr",
     "stringr"
-  ),
-  envir = list2env(list(version_tag = "default", parent = globalenv()))
+  )
 )
 
 # Run the R scripts in the R/ folder with your custom functions:
@@ -38,23 +37,29 @@ list(
   ),
   tar_target(name = board, command = set_up_board()),
   tar_target(
-    name = upload_pin_side_effect,
+    name = write_pin_side_effect,
     command = resume_pin_write(board = board, data = raw_resume_data)
   ),
   tar_target(
     name = versioned_resume_data,
-    command = pin_read(board = board, name = upload_pin_side_effect)
+    command = pin_read(board = board, name = write_pin_side_effect)
   ),
   tar_target(
     name = parsed_resume_data,
     command = parse_bullets(versioned_resume_data)
   ),
-  tar_target(name = education_entries, 
-    command = filter_resume_entries(parsed_resume_data, 
-      exp_style = "education")),
-  tar_target(name = experience_entries, 
-    command = filter_resume_entries(parsed_resume_data, exp_style = "work")),
-  tar_target(name = skills_entries, 
-    command = filter_resume_entries(parsed_resume_data, exp_style = "skills")),
+  tar_target(
+    name = education_entries,
+    command = filter_resume_entries(parsed_resume_data, exp_style = "education")
+  ),
+  tar_target(
+    name = experience_entries,
+    command = filter_resume_entries(parsed_resume_data, exp_style = "work")
+  ),
+  tar_target(
+    name = skills_entries,
+    command = filter_resume_entries(parsed_resume_data, exp_style = "skills")
+  ),
   tar_quarto(resume_out, here("typstcv.qmd"))
+  # TBD: use tar_cue() to reevaluate this target if _quarto.yml or the extension changes
 )

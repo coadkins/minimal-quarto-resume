@@ -7,23 +7,26 @@ set_up_board <- function() {
     nzchar(Sys.getenv("AWS_ACCESS_KEY_ID")),
     nzchar(Sys.getenv("AWS_SECRET_ACCESS_KEY"))
   )
-board <- if(s3_config_complete) {  
-  pins::board_s3(
-  bucket = Sys.getenv("S3_BUCKET"),
-  versioned = TRUE,
-  cache = here("cache"),
-  region = Sys.getenv("S3_REGION"),
-  endpoint = Sys.getenv("S3_ENDPOINT"),
-  access_key = Sys.getenv("S3_PUB_KEY"),
-  secret_access_key = Sys.getenv("S3_PRIV_KEY"))
-} else {
-  # fall back to local board if no env. varaibles for S3
-  pins::board_folder(here("_pins"))
-  warning("S3 configuration incomplete: One or more required environment variables are missing.\n",
-          "Required variables: S3_BUCKET, S3_REGION, S3_ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY\n",
-          "Targets will use local storage instead of AWS S3.",
-          call. = FALSE)
-} 
+  board <- if (s3_config_complete) {
+    pins::board_s3(
+      bucket = Sys.getenv("S3_BUCKET"),
+      versioned = TRUE,
+      cache = here("cache"),
+      region = Sys.getenv("S3_REGION"),
+      endpoint = Sys.getenv("S3_ENDPOINT"),
+      access_key = Sys.getenv("S3_PUB_KEY"),
+      secret_access_key = Sys.getenv("S3_PRIV_KEY")
+    )
+  } else {
+    # fall back to local board if no env. varaibles for S3
+    pins::board_folder(here::here("_pins"))
+    warning(
+      "S3 configuration incomplete: One or more required environment variables are missing.\n",
+      "Required variables: S3_BUCKET, S3_REGION, S3_ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY\n",
+      "Targets will use local storage instead of AWS S3.",
+      call. = FALSE
+    )
+  }
   return(board)
 }
 
@@ -32,7 +35,7 @@ board <- if(s3_config_complete) {
 read_resume_data <- function(
   file,
   col_types = cols(
-    exp_type = "c",
+    experience_type = "c",
     title = "c",
     location = "c",
     date = "D",
@@ -52,7 +55,7 @@ resume_pin_write <- function(
   type = "csv",
   title = "Corys Resume Data",
   description = "Raw data for generating a quarto resume that describes education, skills and work experience",
-  tags = version_tag 
+  tags = version_tag
 ) {
   pins::pin_write(
     board = board,
@@ -90,17 +93,20 @@ parse_bullets <- function(
 }
 
 ## `filter_resume_entries`
-filter_resume_entries <- function(data, 
-  exp_col = exp_type, exp_style, 
-  date_col = date) {
-filtered_df <- data |>
-  dplyr::filter({{ exp_col }} == exp_style)
-if (exp_style == "education" || exp_style == "work") {
-  filtered_df <- filtered_df |>
-    dplyr::arrange(desc({{ date_col }})) |>
-    dplyr::mutate(date = as.character({{ date_col }}))
-  } 
-return(filtered_df)
+filter_resume_entries <- function(
+  data,
+  exp_col = experience_type,
+  exp_style,
+  date_col = date
+) {
+  filtered_df <- data |>
+    dplyr::filter({{ exp_col }} == exp_style)
+  if (exp_style == "education" || exp_style == "work") {
+    filtered_df <- filtered_df |>
+      dplyr::arrange(desc({{ date_col }})) |>
+      dplyr::mutate(date = as.character({{ date_col }}))
+  }
+  return(filtered_df)
 }
 
 ## 'resume_entry_default()` generates typst code for education and experience entries from a data frame
