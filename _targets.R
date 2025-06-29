@@ -11,6 +11,7 @@ library(tarchetypes)
 # Set target options:
 tar_option_set(
   packages = c(
+    # Packages that your targets need for their tasks.
     "dplyr",
     "here",
     "paws.storage",
@@ -18,7 +19,8 @@ tar_option_set(
     "pins",
     "readr",
     "stringr"
-  ) # Packages that your targets need for their tasks.
+  ),
+  envir = list2env(list(version_tag = "default", parent = globalenv()))
 )
 
 # Run the R scripts in the R/ folder with your custom functions:

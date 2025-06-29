@@ -26,6 +26,7 @@ board <- if(s3_config_complete) {
 } 
   return(board)
 }
+
 # Functions for loading and uploading raw resume data
 ## `read_resume_data()` reads resume data with defaults that match the .csv template
 read_resume_data <- function(
@@ -47,13 +48,13 @@ read_resume_data <- function(
 resume_pin_write <- function(
   board = board,
   data,
-  name = paste0("resume_data", version_tag),
+  name = "resume_data",
   type = "csv",
   title = "Corys Resume Data",
   description = "Raw data for generating a quarto resume that describes education, skills and work experience",
-  tags = "default"
+  tags = version_tag 
 ) {
-  pin_write(
+  pins::pin_write(
     board = board,
     x = data,
     name = name,
@@ -64,6 +65,7 @@ resume_pin_write <- function(
   )
   return(name)
 }
+
 # Functions for creating resume entries
 ## `parse_bullets()` transforms lists of resume item details into a usable format
 parse_bullets <- function(
