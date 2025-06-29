@@ -13,7 +13,6 @@ tar_option_set(
   packages = c(
     "dplyr",
     "here",
-    "nanoparquet",
     "paws.storage",
     "purrr",
     "pins",

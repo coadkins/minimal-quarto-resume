@@ -11,13 +11,10 @@ RoxygenNote: 7.0.0
 Imports: 
     dplyr (>= 1.1.4),
     here (>= 1.0.1),
-    nanoparquet (>= 0.4.2),
-    pacman (>= 0.5.1),
     paws.storage (>= 0.9.0),
     pins (>= 1.4.1),
     purrr (>= 1.0.4),
     readr (>= 2.1.5),
-    stringr (>= 1.5.1),
     tarchetypes (>= 0.13.1),
     targets (>= 1.11.3)
 Suggests: 

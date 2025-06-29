@@ -40,8 +40,8 @@ read_resume_data <- function(
 resume_pin_write <- function(
   board = board,
   data,
-  name = "resume_data",
-  type = "parquet",
+  name = paste0("resume_data", version_tag),
+  type = "csv",
   title = "Corys Resume Data",
   description = "Raw data for generating a quarto resume that describes education, skills and work experience",
   tags = "default"
