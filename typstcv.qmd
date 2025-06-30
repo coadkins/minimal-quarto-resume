@@ -13,7 +13,7 @@ author:
     - icon: fa brands linkedin
       text: LinkedIn
       url: https://linkedin.com/in/corykadkins
-format: awesomecv-typst
+format: minimal-quarto-resume-typst
 keep-typ: true
 ---
 

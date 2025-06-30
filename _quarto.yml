@@ -5,7 +5,7 @@ project:
 execute:
   echo: FALSE
   output: asis
-format: awesomecv-typst
+format: minimal-quarto-resume-typst 
 keep_typ: true
 style:
   font-header: "Roboto"
