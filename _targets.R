@@ -17,6 +17,7 @@ tar_option_set(
     "paws.storage",
     "purrr",
     "pins",
+    "quarto",
     "readr",
     "stringr"
   )
