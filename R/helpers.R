@@ -67,6 +67,7 @@ use_resume_data <- function(
     dplyr:: slice_max(order_by = created, n = 1) |>
     dplyr::pull(pin_hash)
   # write that version out to the disk
+  if(length(pin_hash) == 0) {stop('No matching pin tags found')}
   out <- pins::pin_read(board, name, hash = pin_hash)
   readr::write_csv(out, file)
 }
