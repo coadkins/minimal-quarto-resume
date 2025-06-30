@@ -1,1 +1,21 @@
-exp_type,title,location,date,start,end,description,bullets
+experience_type,title,location,date,start,end,description,bullets
+education,The Ninefold Path of the Oak,Ynys Afallon,0435-01-01,,,Druidic Colleges,"- Initiated into bardic, ovate, and druidic degrees; authorized to interpret omens, mediate tribal disputes, and conduct public rituals.
+- Studied cosmology through ogham trees, animal totems, and star-lore.
+- Co-developed “The Singing Cipher,” a mnemonic system for oral transmission of multi-layered arcane texts."
+skills,Theurgy & Symbolic Magic,,,,,,"- ritual invocation 
+- elemental balancing
+- dream-sending"
+skills,Natural Alchemy,,,,,,"- preparation of elixirs
+- transmutation of substances"
+work,Archdruid and Counselor,"Camelot, Brittania",,0490-01-01,0530-12-31,Court of High King Arthur Pendragon,"- Senior spiritual advisor to King Arthur; oversaw integration of Old Ways with emergent Christian doctrines in a volatile religious landscape.
+- Conducted sacred rites at seasonal festivals (e.g., Alban Eilir, Samhuinn) to ensure agricultural fertility and communal balance.
+- Utilized geomantic insight and celestial alignments to identify the site for Camelot and other key strongholds.
+- Practiced veilwalking and deep seeing (interpreted by scholars as trance-induced strategic foresight), aiding in battle planning and diplomatic timing."
+work,Keeper of the Grove and Initiate of the Thirteen Mysteries,Northern Britannia,,0470-01-01,0490-12-31,Sacred Grove of Celyddon,"- Trained in oral transmission of the Coelbren (symbolic alphabet of trees, spirits, and forces).
+- Mastered the use of sacred plants, chants, and inscribed staves in the invocation and binding of natural energies.
+- Performed rites of concealment and transformation (notably recorded in the Tale of the Shifting Shapes), allowing safe passage through contested territories.
+- Served as mediator between human communities and unseen presences inhabiting ancient barrows, rivers, and standing stones."
+work,Wandering Initiate & Interpreter of Omens,Hibernia; Gaul,,0450-01-01,0470-12-31,Self-employed,"- Received direct instruction from surviving Gaulish druids and Christian mystics; cross-trained in continental and insular theurgy.
+- Recorded solar and lunar cycles across megalithic sites; reconstructed lost rites for attunement with “the Deep Time.”
+- Delivered oracular visions under dream incubation rituals (later interpreted as early forms of hypnagogic divination or astral travel).
+- Conducted healing rituals using sympathetic enchantment, lunar water, and songcraft — results chronicled by later monastic scribes as miracles."
