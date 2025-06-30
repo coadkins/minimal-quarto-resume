@@ -28,7 +28,7 @@ tar_source(here("R", "functions.R"))
 list(
   tar_target(
     name = resume_file,
-    here("data", "resume_data.csv"),
+    here("data", "example_data.csv"),
     format = "file"
   ),
   tar_target(
@@ -62,7 +62,7 @@ list(
   ),
   tar_quarto(
     resume_out,
-    here("typstcv.qmd"),
+    here("minimal_quarto_resume.qmd"),
     extra_files = here("_quarto.yml")
   )
 )

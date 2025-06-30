@@ -24,7 +24,11 @@ resume_pin_write <- function(
   data,
   name = "resume_data",
   type = "csv",
-  title = "Resume Data",
+  title = paste0(
+    quarto::quarto_inspect("minimal_quarto_resume.qmd")$author$firstname,
+    "\'s ",
+    "Resume Data"
+  ),
   description = "Raw data for generating a quarto resume that describes education, skills and work experience",
   tags = ifelse(exists("version_tag", mode = "any"), version_tag, "default")
 ) {
@@ -67,7 +71,7 @@ parse_bullets <- function(
 filter_resume_entries <- function(
   data,
   exp_col = experience_type,
-  exp_style, 
+  exp_style,
   date_col = date
 ) {
   filtered_df <- data |>

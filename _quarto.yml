@@ -1,7 +1,7 @@
 project:
-  title: "quarto-resume"
+  title: "minimal-quarto-resume"
   render:
-    - typstcv.qmd
+    - minimal_quarto_resume.qmd
 execute:
   echo: FALSE
   output: asis

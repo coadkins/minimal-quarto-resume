@@ -1,5 +1,5 @@
-Package: quarto-resume
-Title: Cory's Quarto Resume 
+Package: Minimal Quarto Resume
+Title: Quarto Resume 
 Version: 0.0.0.9000
 Authors@R: 
     person("Cory", "Adkins", , "adkins.cory@gmail.com", role = c("aut", "cre"))
