@@ -190,6 +190,7 @@
 
 // User defined style
 #let color-accent = rgb("dc3522")
+#let color-accent = rgb("DC143C")
 #let font-header = "Roboto"
 #let font-text = "Source Sans Pro"
 
