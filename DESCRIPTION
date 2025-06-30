@@ -14,6 +14,7 @@ Imports:
     paws.storage (>= 0.9.0),
     pins (>= 1.4.1),
     purrr (>= 1.0.4),
+    quarto (>= 1.4.4),
     readr (>= 2.1.5),
     tarchetypes (>= 0.13.1),
     targets (>= 1.11.3)
