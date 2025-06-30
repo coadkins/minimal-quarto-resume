@@ -96,6 +96,10 @@ resume_entry_education <- function(
   description = "description",
   details = "bullets_parsed"
 ) {
+  # Handle empty data frame
+  if (nrow(data) == 0) {
+    return(invisible())
+  }
   strings <- apply(data, 1, function(row) {
     s <- "#resume-entry("
     if (!is.na(row[title])) {
@@ -135,6 +139,10 @@ resume_entry_work <- function(
   description = "description",
   details = "bullets_parsed"
 ) {
+  # Handle empty data frame
+  if (nrow(data) == 0) {
+    return(invisible())
+  }
   strings <- apply(data, 1, function(row) {
     s <- "#resume-entry("
     if (!is.na(row[title])) {
@@ -175,7 +183,11 @@ resume_entry_skills <- function(
   data,
   title = "title",
   details = "bullets_parsed"
-) {
+) {  
+  # Handle empty data frame
+  if (nrow(data) == 0) {
+    return(invisible())
+  }
   strings <- apply(data, 1, function(row) {
     if (!is.na(row[title])) {
       s <- sprintf("(\"%s\", (", row[title])
