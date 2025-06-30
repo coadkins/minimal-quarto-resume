@@ -1,6 +1,9 @@
-![preview image](images/preview.png)
+<p align="center">
+<img src="images/preview.png" alt="preview of formatted resume" width="75%" height="75%"/>
+</p>
+
 # Description
-If you are an R enthusiast, this project demonstrates an easy way to create an appealing resume from a .csv file describing your professional experiences. It also uses more advanced R functionality to speed up a common workflow: creating new resumes using data from similar job postings, a strategy detailed under [Advanced Usage](#advanced-usage). 
+This project demonstrates an easy way for R enthusiasts to create appealing resumes from a .csv file describing our professional experiences. It also uses more advanced R functionality to speed up a common workflow: creating new resumes from previously submitted ones, a strategy detailed under [Advanced Usage](#advanced-usage). 
 
 This project uses R and Quarto to parse the raw resume data, the [targets](https://docs.ropensci.org/targets/) package to manage the rendering pipeline and [typst](https://typst.app/) to render the final .pdf document. This setup was inspired by and based on the very cool [Quarto-awesomecv-typst](https://github.com/kazuyanagimoto/quarto-awesomecv-typst) extension, and uses a version of that template which has been modified to fit my own stylistic preferences.
 
@@ -20,20 +23,21 @@ targets::tar_make()
 
 # Raw Data Format
 
-If you wish to use this template without modification, supply a `resume_data.csv` file that follows the style of `data/example_data.csv`. Currently, the template divides professional experience into three headings which can specified in the "experience_type" column: "education", "work" and "skills." The columns "title" "location" "date" and "description" define resume subheadings. You can create bulleted lists under resume subheadings by supplying markdown lists to the "bullets" column. For instance, this text:
+If you wish to use this template without modification, supply a `resume_data.csv` file that follows the style of `data/example_data.csv`. Currently, the template divides professional experience into three headings which can be specified in the "experience_type" column: "education", "work" and "skills." The columns "title" "location" "date" and "description" define resume subheadings. You can create bulleted lists under resume subheadings by supplying markdown lists to the "bullets" column. For instance, this text:
 ```
-- Bullet point description #1 
-- Bullet point description #2 
+- Bullet point description 1 
+- Bullet point description 2 
 ```
 
 Will render as:
-![Formatted bullet points](images/bullets.png)
+
+<img src="images/bullets.png" alt="Formated bullet points" width="25%" height="25%"/>
 
 # Advanced Usage
 ## Data Versioning
 This project allows data versioning and basic metadata manipulation using the R [pins](https://pins.rstudio.com/) package. If you wish to take advantage of `pins` data versioning capabilities, the project contains two helper functions to expedite this. 
 
-When running the pipeline, you can easily tag and save updated data with the helper function `tar_make_new_resume_version()`. From an R session in the project directory call:
+When running the pipeline, you can easily tag and save updated data with the helper function `tar_make_resume_tagged()`. From an R session in the project directory call:
 
 ```{R}
 tar_make_resume_tagged(tag = "new-tag"))
@@ -41,7 +45,7 @@ tar_make_resume_tagged(tag = "new-tag"))
 
 This will render your resume and create a tagged version of your input data, which will come in handy when you want to use that data as a template to create a resume for a similar job posting in the future.
 
-If you with to create a new resume by using a previously rendered resume as a template, you can select the version to base off of by calling `use_resume_data()` from an R session in the project directory:
+If you want to create a new resume by using a previously rendered resume as a template, you can select the version to base off of by calling `use_resume_data()` from an R session in the project directory:
 
 ```{R}
 use_resume_data(tag = "your-tag")
@@ -61,4 +65,3 @@ S3_ENDPOINT=your_endpoint
 AWS_ACCESS_KEY_ID=your_public_key
 AWS_SECRET_ACCESS_KEY=your_private_key
 ```
-
