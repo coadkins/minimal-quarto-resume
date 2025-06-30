@@ -26,7 +26,8 @@ resume_pin_write <- function(
   type = "csv",
   title = "Corys Resume Data",
   description = "Raw data for generating a quarto resume that describes education, skills and work experience",
-  tags = version_tag
+  tags = ifelse(exists("version_tag", mode = "any"),
+               version_tag, "default")
 ) {
   pins::pin_write(
     board = board,
