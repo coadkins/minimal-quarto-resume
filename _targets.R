@@ -29,7 +29,7 @@ tar_source(here("R", "functions.R"))
 list(
   tar_target(
     name = resume_file,
-    here("data", "example_data.csv"),
+    here("data", "resume_data.csv"),
     format = "file"
   ),
   tar_target(
