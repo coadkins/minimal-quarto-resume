@@ -58,20 +58,22 @@ use_resume_data <- function(
   # list all resume versions
   resume_versions <- pins::pin_versions(board, name)[["version"]]
   meta_list <- lapply(resume_versions, \(x) {
-    pins::pin_meta(board, name, x) |>
-      _[c("pin_hash", "created", "tags")] |>
-      list2DF()
-  })
-  meta_df <- do.call(rbind, meta_list)
+    meta <- pins::pin_meta(board, name, x)
+    list(
+    pin_hash = meta$pin_hash,
+    tags = meta$tags,
+    created = meta$created,
+    version = meta$local$version)})
+  meta_df <- do.call(rbind.data.frame, meta_list)
   # get the newest one with that tag
-  pin_hash <- meta_df |>
+  pin_version <- meta_df |>
     dplyr::filter(tag == tags) |>
     dplyr::slice_max(order_by = created, n = 1) |>
-    dplyr::pull(pin_hash)
+    dplyr::pull(version)
   # write that version out to the disk
-  if (length(pin_hash) == 0) {
+  if (length(pin_version) == 0) {
     stop('No matching pin tags found')
   }
-  out <- pins::pin_read(board, name, hash = pin_hash)
+  out <- pins::pin_read(board, name, version = pin_version)
   readr::write_csv(out, file)
 }
