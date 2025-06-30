@@ -22,7 +22,7 @@ keep-typ: true
 ```{r}
 #| label: print education
 source(here::here("R", "functions.R"))
-resume_entry_default(data = targets::tar_read(education_entries), 
+resume_entry_education(data = targets::tar_read(education_entries), 
 details = "bullets_parsed")
 ```
 
@@ -30,7 +30,7 @@ details = "bullets_parsed")
 
 ```{r}
 #| label: print work experience 
-resume_entry_default(data = targets::tar_read(experience_entries), details = "bullets_parsed")
+resume_entry_work(data = targets::tar_read(experience_entries), details = "bullets_parsed")
 ```
 
 ## Skills

@@ -50,12 +50,19 @@ list(
   ),
   tar_target(
     name = experience_entries,
-    command = filter_resume_entries(parsed_resume_data, exp_style = "work")
+    command = filter_resume_entries(
+      parsed_resume_data,
+      exp_style = "work",
+      date_col = "start_date"
+    )
   ),
   tar_target(
     name = skills_entries,
     command = filter_resume_entries(parsed_resume_data, exp_style = "skills")
   ),
-  tar_quarto(resume_out, here("typstcv.qmd"),
-extra_files = here("_quarto.yml"))
+  tar_quarto(
+    resume_out,
+    here("typstcv.qmd"),
+    extra_files = here("_quarto.yml")
+  )
 )

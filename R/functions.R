@@ -1,4 +1,4 @@
-# source the interactive helpers 
+# source the interactive helpers
 source(here::here("R", "helpers.R"))
 # Functions for setting up pins and S3
 # Functions for loading and uploading raw resume data
@@ -24,10 +24,9 @@ resume_pin_write <- function(
   data,
   name = "resume_data",
   type = "csv",
-  title = "Corys Resume Data",
+  title = "Resume Data",
   description = "Raw data for generating a quarto resume that describes education, skills and work experience",
-  tags = ifelse(exists("version_tag", mode = "any"),
-               version_tag, "default")
+  tags = ifelse(exists("version_tag", mode = "any"), version_tag, "default")
 ) {
   pins::pin_write(
     board = board,
@@ -68,7 +67,7 @@ parse_bullets <- function(
 filter_resume_entries <- function(
   data,
   exp_col = experience_type,
-  exp_style,
+  exp_style, 
   date_col = date
 ) {
   filtered_df <- data |>
@@ -76,13 +75,16 @@ filter_resume_entries <- function(
   if (exp_style == "education" || exp_style == "work") {
     filtered_df <- filtered_df |>
       dplyr::arrange(desc({{ date_col }})) |>
-      dplyr::mutate(date = as.character({{ date_col }}))
+      dplyr::mutate(across(
+        where(\(x) class(x) == "Date"),
+        \(x) as.character(format(x, "%m/%Y"))
+      ))
   }
   return(filtered_df)
 }
 
-## 'resume_entry_default()` generates typst code for education and experience entries from a data frame
-resume_entry_default <- function(
+## 'resume_entry_education()` generates typst code for education entries from a data frame
+resume_entry_education <- function(
   data,
   title = "title",
   location = "location",
@@ -118,8 +120,53 @@ resume_entry_default <- function(
   })
   cat(paste0("```{=typst}\n", paste(strings, collapse = "\n"), "\n```"))
 }
+## 'resume_entry_work` generates typst code for work entries from a data frame
+## work entries make use of start and end dates
+resume_entry_work <- function(
+  data,
+  title = "title",
+  location = "location",
+  start_date = "start",
+  end_date = "end",
+  description = "description",
+  details = "bullets_parsed"
+) {
+  strings <- apply(data, 1, function(row) {
+    s <- "#resume-entry("
+    if (!is.na(row[title])) {
+      s <- sprintf("%stitle: \"%s\",", s, row[title])
+    }
+    if (!is.na(row[location])) {
+      s <- sprintf("%slocation: \"%s\",", s, row[location])
+    }
+    if (!is.na(row[start_date])) {
+      s <- sprintf("%sdate: \"%s", s, row[start_date])
+    }
+    if (!is.na(row[end_date])) {
+      s <- sprintf("%s - %s\",", s, row[end_date])
+    } else if (!is.na(row[start_date])) {
+      s <- sprintf("%s - Present\",", s)
+    }
+    if (!is.na(row[description])) {
+      s <- sprintf("%sdescription: \"%s\",", s, row[description])
+    }
+    s <- paste0(s, ")")
+
+    if (!is.na(row[details])) {
+      t <- sapply(row[details], \(x) {
+        sprintf("[%s],", x)
+      })
+      t <- paste0(t, collapse = "\n")
+    }
+    t <- paste0("#resume-item((", t, "))")
+    s <- paste(s, t, sep = "\n")
+    return(s)
+  })
+  cat(paste0("```{=typst}\n", paste(strings, collapse = "\n"), "\n```"))
+}
 
 ## `resume_entry_skills()` generates typst code for skill listings from a data frame of resume items
+## skill entries do not have headings are instead are simple comma seperated lists
 resume_entry_skills <- function(
   data,
   title = "title",

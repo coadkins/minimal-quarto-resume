@@ -42,8 +42,10 @@ set_up_board <- function(
 
 tar_make_resume_tagged <- function(tag) {
   tag_list <- list(version_tag = tag)
-  targets::tar_make(envir = list2env(tag_list, parent = globalenv()),
-  callr_function = NULL)
+  targets::tar_make(
+    envir = list2env(tag_list, parent = globalenv()),
+    callr_function = NULL
+  )
 }
 
 use_resume_data <- function(
@@ -64,10 +66,12 @@ use_resume_data <- function(
   # get the newest one with that tag
   pin_hash <- meta_df |>
     dplyr::filter(tag == tags) |>
-    dplyr:: slice_max(order_by = created, n = 1) |>
+    dplyr::slice_max(order_by = created, n = 1) |>
     dplyr::pull(pin_hash)
   # write that version out to the disk
-  if(length(pin_hash) == 0) {stop('No matching pin tags found')}
+  if (length(pin_hash) == 0) {
+    stop('No matching pin tags found')
+  }
   out <- pins::pin_read(board, name, hash = pin_hash)
   readr::write_csv(out, file)
 }
