@@ -62,7 +62,7 @@ list(
   ),
   tar_quarto(
     resume_out,
-    here("typstcv.qmd"),
+    here("minimal_quarto_resume.qmd"),
     extra_files = here("_quarto.yml")
   )
 )
