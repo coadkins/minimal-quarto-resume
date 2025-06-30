@@ -97,7 +97,7 @@ $endif$
 /// - body (content): The body of the right header
 #let secondary-right-header(body) = {
   set text(
-    size: 10pt,
+    size: 11pt,
     weight: "regular",
     style: "normal",
     fill: color-gray,
@@ -110,7 +110,7 @@ $endif$
 #let tertiary-right-header(body) = {
   set text(
     weight: "regular",
-    size: 10pt,
+    size: 11pt,
     style: "italic",
     fill: color-lightgray,
   )
@@ -122,7 +122,7 @@ $endif$
 /// - secondary (content): The secondary section of the header
 #let justified-header(primary, secondary) = {
     set text(
-        size: 11pt,
+        size: 12pt,
         weight: "bold",
         fill: color-middledarkgray)
     __justify_align(
@@ -136,7 +136,7 @@ $endif$
 #let secondary-justified-header(primary, secondary) = {
   block[
      #set text(
-      size: 10pt,
+      size: 11pt,
       weight: "regular",
       fill: color-gray,
     )
@@ -158,7 +158,7 @@ $endif$
 ) = {
     block[
       #set text(
-        size: 20pt,
+        size: 24pt,
         style: "normal",
         font: (font-header),
       )
@@ -171,7 +171,7 @@ $endif$
 ) = {
   set text(
     color-accent,
-    size: 10pt
+    size: 11pt
   )
 
   block[#address]
@@ -184,13 +184,13 @@ $endif$
   if(contacts.len() > 1) {
     block[
       #set text(
-        size: 10pt,
+        size: 11pt,
         weight: "regular",
         style: "normal",
       )
       #align(horizon)[
         #for contact in contacts [
-          #box(height: 10pt)[#parse_icon_string(contact.icon) #link(contact.url)[#contact.text]]
+          #box(height: 11pt)[#parse_icon_string(contact.icon) #link(contact.url)[#contact.text]]
           #separator
         ]
       ]
@@ -274,7 +274,7 @@ $endif$
 #let resume-item(details) = {
   block(below: 1em)[ 
     #set text(
-      size: 10pt,
+      size: 11pt,
       style: "normal",
       weight: "regular",
       fill: color-darknight,
@@ -341,7 +341,7 @@ $endif$
 //------------------------------------------------------------------------------
 
 #let resume(
-  title: "CV",
+  title: "Resume",
   author: (:),
   date: datetime.today().display("[month repr:long] [day], [year]"),
   profile-photo: "",
@@ -355,7 +355,7 @@ $endif$
   
   set text(
     font: (font-text),
-    size: 10pt,
+    size: 11pt,
     fill: color-darkgray,
     fallback: true,
   )
@@ -395,7 +395,7 @@ $endif$
   
   show heading.where(level: 1): it => [
     #set text(
-      size: 14pt,
+      size: 16pt,
       weight: "regular",
     )
     
@@ -407,7 +407,6 @@ $endif$
   
   show heading.where(level: 2): it => {
     set text(
-      color-middledarkgray,
       size: 12pt,
       weight: "regular"
     )
