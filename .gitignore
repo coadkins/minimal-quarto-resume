@@ -3,9 +3,13 @@
 .RData
 .Ruserdata
 .Renviron
+.Rbuildignore
+minimal-quarto-resume.pdf
+*.typ
 
 /.quarto/
 /cache/
 /data/resume_data.csv
 /renv/
 !/renv/activate.R
+/_targets
