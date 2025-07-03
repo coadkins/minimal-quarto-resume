@@ -47,24 +47,34 @@ resume_pin_write <- function(
 # Functions for creating resume entries
 ## `parse_bullets()` transforms lists of resume item details into a usable format
 parse_bullets <- function(
-  df,
-  bullet_col = "bullets",
-  output_col = "bullets_parsed"
+  data,
+  detail_col = bullets,
+  url_col = url
 ) {
-  df |>
-    dplyr::mutate(
-      !!output_col := purrr::map(.data[[bullet_col]], \(x) {
-        items <- strsplit(x, "\n")
-        items <- sapply(
-          items,
-          \(x) gsub("^\\s*-\\s*", "", x),
-          USE.NAMES = FALSE
+  # colnames for output
+  detail_out <- paste0(as_label(enquo(detail_col)), "_parsed")
+  url_out <- paste0(as_label(enquo(url_col)), "_parsed")
+  # split by hard return and remove "-"
+  split_and_trim <- function(x) {
+    bullet_list <- stringr::str_split(x, pattern = "\\n")
+    bullet_list <- purrr::map(
+      bullet_list,
+      \(x) {
+        tibble::as_tibble(
+          trimws(
+            gsub("^\\s*-\\s*", "", x)
+          )
         )
-        items <- sapply(items, trimws, USE.NAMES = FALSE)
-        items <- items[items != ""]
-        return(items)
-      })
+      }
     )
+    bullet_list <- purrr::map(bullet_list, \(x) {
+      case_when(x == "" ~ NA, .default = x)
+    })
+    return(bullet_list)
+  }
+  data <- data |>
+    dplyr::mutate(across(c({{ detail_col }}, {{ url_col }}), split_and_trim))
+  return(data)
 }
 
 ## `filter_resume_entries`
@@ -94,8 +104,9 @@ resume_entry_education <- function(
   location = "location",
   date = "date",
   description = "description",
-  details = "bullets_parsed"
+  details = "bullets"
 ) {
+  data <- dplyr::arrange(data, .data[[title]])
   # Handle empty data frame
   if (nrow(data) == 0) {
     return(invisible())
@@ -117,14 +128,20 @@ resume_entry_education <- function(
     s <- paste0(s, ")")
 
     if (!is.na(row[details])) {
-      t <- sapply(row[details], \(x) {
-        sprintf("[%s],", x)
+      t <- purrr::map(row[details], \(x) {
+        out <- x |>
+          dplyr::summarise(
+            collapsed = paste0(paste0("[", value, "]", collapse = ", "), ", ")
+          ) |>
+          dplyr::pull()
+        return(out)
       })
-      t <- paste0(t, collapse = "\n")
     }
-    t <- paste0("#resume-item((", t, "))")
-    s <- paste(s, t, sep = "\n")
-    return(s)
+    ifelse(t == "[NA], ", return(s), {
+      t <- paste0("#resume-item((", t, "))")
+      s <- paste(s, t, sep = "\n")
+      return(s)
+    })
   })
   cat(paste0("```{=typst}\n", paste(strings, collapse = "\n"), "\n```"))
 }
@@ -137,7 +154,7 @@ resume_entry_work <- function(
   start_date = "start",
   end_date = "end",
   description = "description",
-  details = "bullets_parsed"
+  details = "bullets"
 ) {
   # Handle empty data frame
   if (nrow(data) == 0) {
@@ -163,16 +180,21 @@ resume_entry_work <- function(
       s <- sprintf("%sdescription: \"%s\",", s, row[description])
     }
     s <- paste0(s, ")")
-
     if (!is.na(row[details])) {
-      t <- sapply(row[details], \(x) {
-        sprintf("[%s],", x)
+      t <- purrr::map(row[details], \(x) {
+        out <- x |>
+          dplyr::summarise(
+            collapsed = paste0(paste0("[", value, "]", collapse = ", "), ", ")
+          ) |>
+          dplyr::pull()
+        return(out)
       })
-      t <- paste0(t, collapse = "\n")
     }
-    t <- paste0("#resume-item((", t, "))")
-    s <- paste(s, t, sep = "\n")
-    return(s)
+    ifelse(t == "[NA], ", return(s), {
+      t <- paste0("#resume-item((", t, "))")
+      s <- paste(s, t, sep = "\n")
+      return(s)
+    })
   })
   cat(paste0("```{=typst}\n", paste(strings, collapse = "\n"), "\n```"))
 }
@@ -182,8 +204,8 @@ resume_entry_work <- function(
 resume_entry_skills <- function(
   data,
   title = "title",
-  details = "bullets_parsed"
-) {  
+  details = "bullets"
+) {
   # Handle empty data frame
   if (nrow(data) == 0) {
     return(invisible())
@@ -192,13 +214,19 @@ resume_entry_skills <- function(
     if (!is.na(row[title])) {
       s <- sprintf("(\"%s\", (", row[title])
     }
+
     if (!is.na(row[details])) {
-      t <- sapply(row[details], \(x) {
-        sprintf("[%s],", x)
+      t <- purrr::map(row[details], \(x) {
+        out <- x |>
+          dplyr::summarise(
+            collapsed = paste0(paste0("[", value, "]", collapse = ", "), ", ")
+          ) |>
+          dplyr::pull()
+        return(out)
       })
-      t <- c(t, ")),")
-      t <- paste0(t, collapse = "\n")
     }
+    t <- c(t, ")),")
+    t <- paste0(t, collapse = "\n")
     s <- paste(s, t, sep = "\n")
     return(s)
   })
