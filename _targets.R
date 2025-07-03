@@ -64,6 +64,7 @@ list(
   tar_quarto(
     resume_out,
     here("minimal_quarto_resume.qmd"),
-    extra_files = here("_quarto.yml")
+    extra_files = here("_quarto.yml"),
+    quiet = FALSE
   )
 )

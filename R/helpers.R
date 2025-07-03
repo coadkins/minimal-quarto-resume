@@ -60,10 +60,12 @@ use_resume_data <- function(
   meta_list <- lapply(resume_versions, \(x) {
     meta <- pins::pin_meta(board, name, x)
     list(
-    pin_hash = meta$pin_hash,
-    tags = meta$tags,
-    created = meta$created,
-    version = meta$local$version)})
+      pin_hash = meta$pin_hash,
+      tags = meta$tags,
+      created = meta$created,
+      version = meta$local$version
+    )
+  })
   meta_df <- do.call(rbind.data.frame, meta_list)
   # get the newest one with that tag
   pin_version <- meta_df |>
