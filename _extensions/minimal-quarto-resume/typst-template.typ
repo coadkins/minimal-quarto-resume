@@ -303,38 +303,23 @@ $endif$
 // Skills Entries 
 //------------------------------------------------------------------------------
 #let skills-entry(areas) = {
-  let skills=for area in areas {
+  let skills = for area in areas {
     strong[#area.at(0): ]
-    area.at(1).join(", ")
+    let skill_items = ()
+    for skill in area.at(1) {
+      if type(skill) == array and skill.len() == 2 {
+        // If skill is an array with [text, url], create a link
+        skill_items.push(underline(link(skill.at(1))[#skill.at(0)]))
+      } else {
+        // If skill is just text, display as-is
+        skill_items.push(skill)
+      }
+    }
+    skill_items.join(", ")
     linebreak()
   }
-    block[#skills]
+  block[#skills]
 }
-//------------------------------------------------------------------------------
-// Data to Resume Entries
-//------------------------------------------------------------------------------
-
-#let data-to-resume-entries(
-  data: (),
-) = {
-  let arr = if type(data) == dictionary { data.values() } else { data }
-  for item in arr [
-    #resume-entry(
-      title: if "title" in item { item.title } else { none },
-      location: if "location" in item { item.location } else { none },
-      date: if "date" in  item { item.date } else { none },
-      description: if "description" in item { item.description } else { none }
-    )
-    #if "details" in item {
-      resume-item[
-        #for detail in item.details [
-          - #detail
-        ]
-      ]
-    }
-  ]
-}
-
 
 //------------------------------------------------------------------------------
 // Resume Template
