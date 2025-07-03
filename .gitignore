@@ -3,6 +3,9 @@
 .RData
 .Ruserdata
 .Renviron
+.Rbuildignore
+minimal-quarto-resume.pdf
+*.typ
 
 /.quarto/
 /cache/
