@@ -1,18 +1,18 @@
 ---
 author:
-  firstname: Merlin 
-  lastname: Ambrosius 
-  address: Glastonbury, UK 
+  firstname: Cory 
+  lastname: Adkins 
+  address: Boston, MA 
   contacts:
     - icon: fa envelope
-      text: merlin@avalon.edu 
-      url: mailto:merlin@avalon.edu
+      text: adkins.cory@gmail.com 
+      url: mailto:adkins.cory@gmail.com
     - icon: fa brands github 
       text: GitHub
-      url: https://github.com/merlin
+      url: https://github.com/coadkins
     - icon: fa brands linkedin
       text: LinkedIn
-      url: https://linkedin.com/in/merlin
+      url: https://linkedin.com/in/corykadkins
 format: minimal-quarto-resume-typst
 keep-typ: true
 ---
@@ -23,14 +23,14 @@ keep-typ: true
 #| label: print education
 source(here::here("R", "functions.R"))
 resume_entry_education(data = targets::tar_read(education_entries), 
-details = "bullets_parsed")
+details = "bullets")
 ```
 
 ## Experience
 
 ```{r}
 #| label: print work experience 
-resume_entry_work(data = targets::tar_read(experience_entries), details = "bullets_parsed")
+resume_entry_work(data = targets::tar_read(experience_entries), details = "bullets")
 ```
 
 ## Skills
