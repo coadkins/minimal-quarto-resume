@@ -90,7 +90,7 @@ filter_resume_entries <- function(
     filtered_df <- filtered_df |>
       dplyr::arrange(desc({{ date_col }})) |>
       dplyr::mutate(across(
-        where(\(x) class(x) == "Date"),
+        where(\(x) inherits(x, "Date")),
         \(x) as.character(format(x, "%m/%Y"))
       ))
   }
@@ -106,7 +106,6 @@ resume_entry_education <- function(
   description = "description",
   details = "bullets"
 ) {
-  data <- dplyr::arrange(data, .data[[title]])
   # Handle empty data frame
   if (nrow(data) == 0) {
     return(invisible())
