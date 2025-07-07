@@ -12,7 +12,7 @@ author:
       url: https://github.com/codewizard
     - icon: fa brands linkedin
       text: LinkedIn
-      url: https://linkedin.com/in/merlin
+      url: https://linkedin.com/in/corykadkins
 format: minimal-quarto-resume-typst
 keep-typ: true
 ---

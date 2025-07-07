@@ -61,16 +61,15 @@ parse_bullets <- function(
       bullet_list,
       \(x) {
         tibble::as_tibble(
-            trimws(
-              gsub("^\\s*-\\s*", "", x)
-            )
+          trimws(
+            gsub("^\\s*-\\s*", "", x)
+          )
         )
       }
     )
-    bullet_list <- purrr::map(bullet_list, \(x){
-      case_when(x == "" ~ NA, 
-      .default = x)
-        })
+    bullet_list <- purrr::map(bullet_list, \(x) {
+      case_when(x == "" ~ NA, .default = x)
+    })
     return(bullet_list)
   }
   data <- data |>
@@ -91,7 +90,7 @@ filter_resume_entries <- function(
     filtered_df <- filtered_df |>
       dplyr::arrange(desc({{ date_col }})) |>
       dplyr::mutate(across(
-        where(\(x) class(x) == "Date"),
+        where(\(x) inherits(x, "Date")),
         \(x) as.character(format(x, "%m/%Y"))
       ))
   }
@@ -131,15 +130,18 @@ resume_entry_education <- function(
     if (!is.na(row[details])) {
       t <- purrr::map(row[details], \(x) {
         out <- x |>
-        dplyr::summarise(collapsed = paste0("[", value, "]", collapse = ", ")) |>
+          dplyr::summarise(
+            collapsed = paste0(paste0("[", value, "]", collapse = ", "), ", ")
+          ) |>
           dplyr::pull()
         return(out)
-        })
-      }
-    ifelse(t == "[NA]", return(s), {
-    t <- paste0("#resume-item((", t, "))")
-    s <- paste(s, t, sep = "\n")
-    return(s)})
+      })
+    }
+    ifelse(t == "[NA], ", return(s), {
+      t <- paste0("#resume-item((", t, "))")
+      s <- paste(s, t, sep = "\n")
+      return(s)
+    })
   })
   cat(paste0("```{=typst}\n", paste(strings, collapse = "\n"), "\n```"))
 }
@@ -181,15 +183,18 @@ resume_entry_work <- function(
     if (!is.na(row[details])) {
       t <- purrr::map(row[details], \(x) {
         out <- x |>
-        dplyr::summarise(collapsed = paste0("[", value,"]", collapse = ", ")) |>
+          dplyr::summarise(
+            collapsed = paste0(paste0("[", value, "]", collapse = ", "), ", ")
+          ) |>
           dplyr::pull()
         return(out)
-        })
-      }
-    ifelse(t == "[NA]", return(s), {
-    t <- paste0("#resume-item((", t, "))")
-    s <- paste(s, t, sep = "\n")
-    return(s)})
+      })
+    }
+    ifelse(t == "[NA], ", return(s), {
+      t <- paste0("#resume-item((", t, "))")
+      s <- paste(s, t, sep = "\n")
+      return(s)
+    })
   })
   cat(paste0("```{=typst}\n", paste(strings, collapse = "\n"), "\n```"))
 }
@@ -210,21 +215,22 @@ resume_entry_skills <- function(
     if (!is.na(row[title])) {
       s <- sprintf("(\"%s\", (", row[title])
     }
-    
+
     if (!is.na(row[details])) {
       t <- purrr::map(row[details], \(x) {
         out <- x |>
-        dplyr::summarise(collapsed = paste0("[", value, "]", collapse = ", ")) |>
+          dplyr::summarise(
+            collapsed = paste0(paste0("[", value, "]", collapse = ", "), ", ")
+          ) |>
           dplyr::pull()
         return(out)
-        })
-      }
-      t <- c(t, ")),")
-      t <- paste0(t, collapse = "\n")
-      s <- paste(s, t, sep = "\n")
-      return(s)
+      })
     }
-  )
+    t <- c(t, ")),")
+    t <- paste0(t, collapse = "\n")
+    s <- paste(s, t, sep = "\n")
+    return(s)
+  })
   cat(paste0(
     "```{=typst}\n",
     "#skills-entry((\n",

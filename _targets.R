@@ -47,14 +47,14 @@ list(
   ),
   tar_target(
     name = education_entries,
-    command = filter_resume_entries(parsed_resume_data, exp_style = "education")
+    command = filter_resume_entries(parsed_resume_data, 
+      exp_style = "education")
   ),
   tar_target(
     name = experience_entries,
     command = filter_resume_entries(
       parsed_resume_data,
-      exp_style = "work",
-      date_col = "start_date"
+      exp_style = "work"
     )
   ),
   tar_target(
