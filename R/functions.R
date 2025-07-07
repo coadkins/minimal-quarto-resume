@@ -106,7 +106,6 @@ resume_entry_education <- function(
   description = "description",
   details = "bullets"
 ) {
-  data <- dplyr::arrange(data, .data[[title]])
   # Handle empty data frame
   if (nrow(data) == 0) {
     return(invisible())
