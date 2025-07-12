@@ -206,7 +206,7 @@ $endif$
   align-header: center
 ) = {
   set par(
-   spacing: .43em 
+   spacing: .65em 
   )
   align(align-header)[
     #create-header-name(firstname: firstname, lastname: lastname)
@@ -292,7 +292,7 @@ $endif$
 ) = {
     block[
     #set par(
-      spacing: 0.43em
+      spacing: 0.65em
     )
     #justified-header(title, location)
     #secondary-justified-header(description, date)

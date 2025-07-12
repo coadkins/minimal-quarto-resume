@@ -16,6 +16,7 @@ Imports:
     purrr (>= 1.0.4),
     quarto (>= 1.4.4),
     readr (>= 2.1.5),
+    stringr (>= 1.5.1),
     tarchetypes (>= 0.13.1),
     targets (>= 1.11.3)
 Suggests: 
