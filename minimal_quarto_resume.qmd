@@ -6,7 +6,7 @@ author:
   contacts:
     - icon: fa envelope
       text: merlin@avalon.edu 
-      url: mailto: 
+      url: mailto:merlin@avalon.edu
     - icon: fa brands github 
       text: GitHub
       url: https://github.com/codewizard
