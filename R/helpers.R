@@ -15,8 +15,8 @@ set_up_board <- function(
     nzchar(Sys.getenv("AWS_ACCESS_KEY_ID")),
     nzchar(Sys.getenv("AWS_SECRET_ACCESS_KEY"))
   )
-  board <- if (s3_config_complete) {
-    pins::board_s3(
+  if (s3_config_complete) {
+    board <- pins::board_s3(
       bucket = bucket,
       versioned = versioned,
       cache = cache,
@@ -27,7 +27,7 @@ set_up_board <- function(
     )
   } else {
     # fall back to local board if no env. varaibles for S3
-    pins::board_folder(here::here("_pins"))
+    board <- pins::board_folder(here::here("_pins"))
     if (warn == TRUE) {
       warning(
         "S3 configuration incomplete: One or more required environment variables are missing.\n",
